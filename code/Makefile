@@ -16,6 +16,29 @@ lesson_%/main: lesson_%/main.c
 run-%: lesson_%/main
 	./lesson_$*/main
 
+# Assignment targets
+ASSIGNMENTS = $(wildcard lesson_*/assignment.c)
+ASSIGNMENT_PROGS = $(ASSIGNMENTS:assignment.c=assignment)
+
+assignments: $(ASSIGNMENT_PROGS)
+
+lesson_%/assignment: lesson_%/assignment.c
+	$(CC) $(CFLAGS) -o $@ $<
+	@echo "✓ Built $@"
+
+run-assignment-%: lesson_%/assignment
+	./lesson_$*/assignment
+
+compile-assignment-%: lesson_%/assignment
+	@echo "✓ Assignment compiled successfully"
+
+help: help
+	@echo ""
+	@echo "Assignment targets:"
+	@echo "make assignments           - Compile all assignments"
+	@echo "make compile-assignment-2  - Compile lesson 2 assignment"
+	@echo "make run-assignment-3      - Run lesson 3 assignment"
+
 clean:
 	find . -name "main" -type f -delete
 	@echo "✓ Cleaned up compiled files"
